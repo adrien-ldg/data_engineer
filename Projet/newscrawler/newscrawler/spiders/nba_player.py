@@ -1,4 +1,5 @@
 import scrapy
+from scrapy import Request
 from ..items import ArticleItem
 
 
@@ -26,8 +27,7 @@ class NbaPlayerSpider(scrapy.Spider):
         },
         "DOWNLOAD_DELAY": 1,
         "ROBOTSTXT_OBEY" : True,
-        #"HTTPCACHE_ENABLED":True,
-        "CONCURRENT_REQUESTS_PER_DOMAIN":100
+        "CONCURRENT_REQUESTS_PER_DOMAIN":200
     }
 
     
@@ -36,10 +36,27 @@ class NbaPlayerSpider(scrapy.Spider):
         team = response.css("p").css("strong::text").extract_first()
         
         for data in response.css(".line_1, .line_2"):
+            link = data.css("a::attr(href)").extract_first()
             player = data.css("a::text").extract_first()
             stats = data.css("td::text").extract()
-            yield ArticleItem(
+            yield Request(link, callback=self.parse_category, meta={'team': team, 'player': player, 'stats': stats})
+            
+            
+            
+    def parse_category(self, response):
+        team = response.meta['team']
+        player = response.meta['player']
+        stats = response.meta['stats']
+        data = response.css(".player-value::text").extract()
+         
+        yield ArticleItem(
                 player = player,
+                month_born = data[0],
+                year_born = data[0],
+                age = data[0],
+                nationality = data[1],
+                size = data[2],
+                weight = data[3],
                 team = team,
                 MJ = stats[0],
                 minutes = stats[1],

@@ -8,6 +8,7 @@
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 import pymongo
+import re
 
 
 class TextPipeline(object):
@@ -16,13 +17,16 @@ class TextPipeline(object):
         if item["player"] and item["team"]:
             item["player"] = clean_spaces(item["player"])
             item["team"] = clean_spaces(item["team"])
-            for i in ["MJ", "minutes", "tir", "tir_3_pts", "lf", "rb_off", "rb_df", "rb", "pd", "bp", "inter", "ct", "fte", "pts"]:
-                if not item[i]:
-                    item[i] = 0.0
-                try:
-                    item[i] = float(item[i])
-                except ValueError:
-                    item[i] = 0.0
+            item["month_born"] = re.split(r"[()]", item["month_born"])
+            item["month_born"] = item["month_born"][0].split()[1].strip()
+            item["year_born"] = re.split(r"[()]", item["year_born"])
+            item["year_born"] = item["year_born"][0].split()[2].strip()
+            item["age"] = re.split(r"[()]", item["age"])
+            item["age"] = re.sub(r'\D', '', item["age"][1])
+            item["nationality"] = item["nationality"].split("/")
+            item["size"] = re.sub(r'\D', '', item["size"])
+            item["weight"] = re.sub(r'\D', '', item["weight"])
+                
             return item
         else:
             raise DropItem("Missing value in %s" % item)
@@ -31,6 +35,24 @@ class TextPipeline(object):
 def clean_spaces(string):
     if string:
         return " ".join(string.split())
+    
+
+class NumericPipeline(object):
+
+    def process_item(self, item, spider):
+        for i in ["minutes", "tir", "tir_3_pts", "lf", "rb_off", "rb_df", "rb", "pd", "bp", "inter", "ct", "fte", "pts"]:
+            try:
+                item[i] = float(item[i])
+            except ValueError:
+                item[i] = 0.0
+
+        for i in ["MJ", "year_born", "age", "size", "weight"]:
+            try:
+                item[i] = int(item[i])
+            except ValueError:
+                item[i] = 0
+                
+        return item
     
     
 class MongoPipeline(object):

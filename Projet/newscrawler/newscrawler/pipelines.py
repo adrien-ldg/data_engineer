@@ -26,6 +26,12 @@ class TextPipeline(object):
             item["nationality"] = item["nationality"].split("/")
             item["size"] = re.sub(r'\D', '', item["size"])
             item["weight"] = re.sub(r'\D', '', item["weight"])
+            item["pick_draft"] = item["pick_draft"].split(",")
+            try:
+                item["pick_draft"] = item["pick_draft"][1]
+                item["pick_draft"] = re.sub(r'\D', '', item["pick_draft"])
+            except:
+                item["pick_draft"] = "non drafte"
                 
             return item
         else:
@@ -51,6 +57,11 @@ class NumericPipeline(object):
                 item[i] = int(item[i])
             except ValueError:
                 item[i] = 0
+                
+        try:
+            item["pick_draft"] = int(item["pick_draft"])
+        except ValueError:
+            item["pick_draft"] = "non drafte"
                 
         return item
     

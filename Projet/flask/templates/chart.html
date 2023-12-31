@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphiques</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include "navbar.html" %}
+    <div style="padding: 20px;">
+        <h1>Graphique Plotly dans Flask</h1>
+        {{ graph_html|safe }}
+    </div>
+</body>
+</html>

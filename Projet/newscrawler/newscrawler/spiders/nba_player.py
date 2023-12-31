@@ -57,6 +57,7 @@ class NbaPlayerSpider(scrapy.Spider):
                 nationality = data[1],
                 size = data[2],
                 weight = data[3],
+                pick_draft = data[4],
                 team = team,
                 MJ = stats[0],
                 minutes = stats[1],

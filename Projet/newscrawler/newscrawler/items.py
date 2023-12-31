@@ -13,6 +13,7 @@ class ArticleItem(scrapy.Item):
     nationality = scrapy.Field()
     size = scrapy.Field()
     weight = scrapy.Field()
+    pick_draft = scrapy.Field()
     team = scrapy.Field()
     MJ = scrapy.Field()
     minutes = scrapy.Field()

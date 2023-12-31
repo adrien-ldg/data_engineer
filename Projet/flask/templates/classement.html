@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 5</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            text-align: center; 
+        }
+
+        h1, a {
+            margin-bottom: 20px; 
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 75%;
+        }
+
+        .table-container table {
+            border-collapse: collapse;
+            width: 42%; 
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            margin-bottom: 70px; 
+        }
+    </style>
+</head>
+<body>
+    {% include "navbar.html" %}
+    <div style="padding: 20px;">
+        <h1>Top 5 des Joueurs avec le Plus Grand Nombre de Points</h1>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_pts_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>passes décisives</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_pd_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

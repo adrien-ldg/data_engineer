@@ -26,6 +26,12 @@ class TextPipeline(object):
             item["nationality"] = item["nationality"].split("/")
             item["size"] = re.sub(r'\D', '', item["size"])
             item["weight"] = re.sub(r'\D', '', item["weight"])
+            item["pick_draft"] = item["pick_draft"].split(",")
+            try:
+                item["pick_draft"] = item["pick_draft"][1]
+                item["pick_draft"] = re.sub(r'\D', '', item["pick_draft"])
+            except:
+                item["pick_draft"] = "non drafte"
                 
             return item
         else:
@@ -52,20 +58,25 @@ class NumericPipeline(object):
             except ValueError:
                 item[i] = 0
                 
+        try:
+            item["pick_draft"] = int(item["pick_draft"])
+        except ValueError:
+            item["pick_draft"] = "non drafte"
+                
         return item
     
     
-# class MongoPipeline(object):
+class MongoPipeline(object):
 
-#     collection_name = 'nba_player'
+    collection_name = 'nba_player'
 
-#     def open_spider(self, spider):
-#         self.client = pymongo.MongoClient()
-#         self.db = self.client["basket"]
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient()
+        self.db = self.client["basket"]
 
-#     def close_spider(self, spider):
-#         self.client.close()
+    def close_spider(self, spider):
+        self.client.close()
 
-#     def process_item(self, item, spider):
-#         self.db[self.collection_name].insert_one(dict(item))
-#         return item
+    def process_item(self, item, spider):
+        self.db[self.collection_name].insert_one(dict(item))
+        return item

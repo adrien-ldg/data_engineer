@@ -1,0 +1,7 @@
+Flask
+Flask_pymongo
+Flask-Cors
+Flask-WTF
+io
+plotly
+plotly.express

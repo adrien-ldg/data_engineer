@@ -1,0 +1,13 @@
+Scrapy
+itemadapter
+itemloaders
+pymongo
+re
+jupyter
+Flask
+Flask_pymongo
+Flask-Cors
+Flask-WTF
+io
+plotly
+plotly.express

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 5</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            text-align: center; 
+        }
+
+        h1, a {
+            margin-bottom: 10px; 
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 50px auto;
+            max-width: 75%;
+        }
+
+        .table-container table {
+            border-collapse: collapse;
+            width: 40%; 
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            margin-bottom: 50px; 
+        }
+    </style>
+</head>
+<body>
+    {% include "navbar.html" %}
+    <div style="padding: 20px;">
+        <h1>Classements: </h1>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <caption>joueurs ayant joué le plus de matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>nombre de matchs joués</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_MJ_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>temps de jeu moyen: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>temps de jeu/match</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_min_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>pourcentage au tirs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>tir (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_tir_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>pourcentage au tir à 3 points: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>tir à 3pts (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_tir_3_pts_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>pourcentage aux lancers francs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>lancers francs (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_lf_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>nombre de rebonds offensifs / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>rebond offensif</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_rb_off_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>nombre de rebonds défensifs / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>rebonds défensifs</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_rb_def_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>nombre de rebonds / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>rebonds</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_rb_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>nombre de passes décisives / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>passes décisives</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_pd_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>nombre de ballons perdus / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>ballons perdus</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_bp_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>nombre d'interceptions / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>interceptions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_inter_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>nombre de contres / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>contres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_ct_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <caption>nombre de fautes / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>fautes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_fte_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <caption>nombre de points / matchs: </caption>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Joueur</th>
+                    <th>points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player_data in top_pts_players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ player_data[0] }}</td>
+                        <td>{{ player_data[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

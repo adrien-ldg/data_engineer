@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
     <style>
-        body {
-            text-align: center; 
-        }
-
         h1, a {
             margin-bottom: 20px; 
         }
@@ -26,8 +22,6 @@
     {% include "navbar.html" %}
     <div style="padding: 20px;">
         <h1>Home:</h1>
-        <a href="/graph">View Bar Chart</a>
-        <a href="/top5">View top 5</a>
         <img src="{{ image }}" alt="NBAImage">
     </div>
 </body>

@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-from flask_pymongo import PyMongo
+import pymongo
 import plotly.express as px
-from io import BytesIO
+import os
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/basket"
-mongo = PyMongo(app).db.nba_player
+mongo = pymongo.MongoClient(os.getenv("MONGO_URI"))
+db = mongo.basket
+collection = db.nba_player
 
 @app.route("/")
 def home():
@@ -14,47 +15,47 @@ def home():
 
 @app.route("/top5")
 def top5():
-    top_MJ_players = mongo.find().sort("MJ", -1).limit(5)
+    top_MJ_players = collection.find().sort("MJ", -1).limit(5)
     top_MJ_players_data = [(player["player"], player["MJ"]) for player in top_MJ_players]
 
-    top_min_players = mongo.find().sort("minutes", -1).limit(5)
+    top_min_players = collection.find().sort("minutes", -1).limit(5)
     top_min_players_data = [(player["player"], player["minutes"]) for player in top_min_players]
 
 
-    top_tir_players = mongo.find({"MJ": {"$gte": 20}}).sort("tir", -1).limit(5)
+    top_tir_players = collection.find({"MJ": {"$gte": 20}}).sort("tir", -1).limit(5)
     top_tir_players_data = [(player["player"], player["tir"]) for player in top_tir_players]
 
-    top_tir3_pts_players = mongo.find({"MJ": {"$gte": 20}}).sort("tir_3_pts", -1).limit(5)
+    top_tir3_pts_players = collection.find({"MJ": {"$gte": 20}}).sort("tir_3_pts", -1).limit(5)
     top_tir_3_pts_players_data = [(player["player"], player["tir_3_pts"]) for player in top_tir3_pts_players]
 
-    top_lf_players = mongo.find({"MJ": {"$gte": 20}}).sort("lf", -1).limit(5)
+    top_lf_players = collection.find({"MJ": {"$gte": 20}}).sort("lf", -1).limit(5)
     top_lf_players_data = [(player["player"], player["lf"]) for player in top_lf_players]
 
-    top_rb_off_players = mongo.find({"MJ": {"$gte": 20}}).sort("rb_off", -1).limit(5)
+    top_rb_off_players = collection.find({"MJ": {"$gte": 20}}).sort("rb_off", -1).limit(5)
     top_rb_off_players_data = [(player["player"], player["rb_off"]) for player in top_rb_off_players]
 
-    top_rb_def_players = mongo.find({"MJ": {"$gte": 20}}).sort("rb_df", -1).limit(5)
+    top_rb_def_players = collection.find({"MJ": {"$gte": 20}}).sort("rb_df", -1).limit(5)
     top_rb_def_players_data = [(player["player"], player["rb_df"]) for player in top_rb_def_players]
 
-    top_rb_players = mongo.find({"MJ": {"$gte": 20}}).sort("rb", -1).limit(5)
+    top_rb_players = collection.find({"MJ": {"$gte": 20}}).sort("rb", -1).limit(5)
     top_rb_players_data = [(player["player"], player["rb"]) for player in top_rb_players]
 
-    top_pd_players = mongo.find({"MJ": {"$gte": 20}}).sort("pd", -1).limit(5)
+    top_pd_players = collection.find({"MJ": {"$gte": 20}}).sort("pd", -1).limit(5)
     top_pd_players_data = [(player["player"], player["pd"]) for player in top_pd_players]
 
-    top_bp_players = mongo.find({"MJ": {"$gte": 20}}).sort("bp", -1).limit(5)
+    top_bp_players = collection.find({"MJ": {"$gte": 20}}).sort("bp", -1).limit(5)
     top_bp_players_data = [(player["player"], player["bp"]) for player in top_bp_players]
 
-    top_inter_players = mongo.find({"MJ": {"$gte": 20}}).sort("inter", -1).limit(5)
+    top_inter_players = collection.find({"MJ": {"$gte": 20}}).sort("inter", -1).limit(5)
     top_inter_players_data = [(player["player"], player["inter"]) for player in top_inter_players]
 
-    top_ct_players = mongo.find({"MJ": {"$gte": 20}}).sort("ct", -1).limit(5)
+    top_ct_players = collection.find({"MJ": {"$gte": 20}}).sort("ct", -1).limit(5)
     top_ct_players_data = [(player["player"], player["ct"]) for player in top_ct_players]
 
-    top_fte_players = mongo.find({"MJ": {"$gte": 20}}).sort("fte", -1).limit(5)
+    top_fte_players = collection.find({"MJ": {"$gte": 20}}).sort("fte", -1).limit(5)
     top_fte_players_data = [(player["player"], player["fte"]) for player in top_fte_players]
 
-    top_pts_players = mongo.find({"MJ": {"$gte": 20}}).sort("pts", -1).limit(5)
+    top_pts_players = collection.find({"MJ": {"$gte": 20}}).sort("pts", -1).limit(5)
     top_pts_players_data = [(player["player"], player["pts"]) for player in top_pts_players]
 
     return render_template("classement.html", top_MJ_players=top_MJ_players_data,
@@ -70,7 +71,7 @@ def top5():
 @app.route("/graphs")
 def user():
 
-    results = mongo.aggregate([
+    results = collection.aggregate([
         {
             "$group": {
                 "_id": "$team",
@@ -97,7 +98,7 @@ def user():
 
     graph_1 = fig.to_html(full_html=False)
 
-    cur = list(mongo.find())
+    cur = list(collection.find())
 
     minj = []
     pts = []

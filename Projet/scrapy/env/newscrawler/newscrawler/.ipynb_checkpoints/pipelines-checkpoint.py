@@ -78,5 +78,5 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert_one(dict(item))
+        self.db[self.collection_name].update_one({"player": dict(item)["player"]}, {"$set": dict(item)}, upsert=True)
         return item

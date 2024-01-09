@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 import pymongo
 import re
+import os
 
 
 class TextPipeline(object):
@@ -69,14 +70,15 @@ class NumericPipeline(object):
 class MongoPipeline(object):
 
     collection_name = 'nba_player'
+    URI = os.getenv("MONGO_URI")
 
     def open_spider(self, spider):
-        self.client = pymongo.MongoClient()
+        self.client = pymongo.MongoClient(self.URI)
         self.db = self.client["basket"]
 
     def close_spider(self, spider):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert_one(dict(item))
+        self.db[self.collection_name].update_one({"player": dict(item)["player"]}, {"$set": dict(item)}, upsert=True)
         return item

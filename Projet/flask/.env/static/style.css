@@ -6,6 +6,14 @@
     text-decoration: none;
 }
 
+body {
+    text-align: center; 
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
 .nav-list {
     padding: 1rem 0;
     display: flex;
@@ -27,4 +35,14 @@
     margin-right: auto;
     margin-left: 2rem;
     pointer-events: none;
+}
+
+img {
+    width: 200px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

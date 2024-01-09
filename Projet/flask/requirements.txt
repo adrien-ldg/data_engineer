@@ -1,7 +1,4 @@
 Flask
-Flask_pymongo
-Flask-Cors
-Flask-WTF
-io
+pymongo==4.6.1
 plotly
 plotly.express

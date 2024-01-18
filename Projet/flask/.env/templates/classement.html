@@ -4,43 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top 5</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body {
-            text-align: center; 
-        }
-
-        h1, a {
-            margin-bottom: 10px; 
-        }
-
-        .table-container {
-            display: flex;
-            justify-content: space-between;
-            margin: 50px auto;
-            max-width: 75%;
-        }
-
-        .table-container table {
-            border-collapse: collapse;
-            width: 40%; 
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        h1 {
-            margin-bottom: 50px; 
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='classement.css') }}">
 </head>
 <body>
     {% include "navbar.html" %}
     <div style="padding: 20px;">
-        <h1>Classements: </h1>
+        <h1>Classements : </h1>
     </div>
     
     <div class="table-container">

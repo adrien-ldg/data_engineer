@@ -5,24 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
-    <style>
-        h1, a {
-            margin-bottom: 20px; 
-        }
-
-        img {
-            width: 200px;
-            height: 300px;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
 </head>
 <body>
     {% include "navbar.html" %}
-    <div style="padding: 20px;">
-        <h1>Home:</h1>
-        <img src="{{ image }}" alt="NBAImage">
+    <div class="title">
+        <h1>HOME :</h1>
+    </div>
+    <div class="text">
+        <h3>Bienvenue sur NBA Players, le site  pour les passionnés de NBA. Explorez et analysez les performances de vos joueurs préférés tout au long de la saison.</h3>
+        <h3>Adrien Lindeberg - Rémi Labou</h3>
     </div>
 </body>
 </html>

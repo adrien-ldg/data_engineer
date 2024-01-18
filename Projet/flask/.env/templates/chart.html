@@ -4,29 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graphiques</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body {
-            text-align: center; 
-        }
-
-        h1, a {
-            margin-bottom: 10px; 
-        }
-
-        h1 {
-            margin-bottom: 50px; 
-        }
-
-        .graph-container {
-            margin-bottom: 70px; 
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='graphs.css') }}">
 </head>
 <body>
     {% include "navbar.html" %}
     <div style="padding: 20px;">
-        <h1>Graphiques:</h1>
+        <h1>Graphiques :</h1>
         <div class="graph-container">
             {{ graph_1|safe }}
         </div>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 import pymongo
 import plotly.express as px
 import os
@@ -13,59 +13,70 @@ def home():
     return render_template("home.html", image = "/static/images/image1.jpg")
 
 
-@app.route("/top5")
-def top5():
-    top_MJ_players = collection.find().sort("MJ", -1).limit(5)
-    top_MJ_players_data = [(player["player"], player["MJ"]) for player in top_MJ_players]
+@app.route("/top10", methods=["GET", "POST"])
+def top10():
 
-    top_min_players = collection.find().sort("minutes", -1).limit(5)
-    top_min_players_data = [(player["player"], player["minutes"]) for player in top_min_players]
+    teams_nba = collection.distinct("team")
 
+    if request.method == "POST":
+        selected_option_stats = request.form['selected_option_stats']
+        selected_option_teams = request.form['selected_option_teams']
 
-    top_tir_players = collection.find({"MJ": {"$gte": 20}}).sort("tir", -1).limit(5)
-    top_tir_players_data = [(player["player"], player["tir"]) for player in top_tir_players]
+        
+        if selected_option_stats == '':
+            return jsonify({'head': "", 'body': ""})
+        else:
+            if selected_option_teams == "all":
+                filter_condition = {"MJ": {'$gte': 15}}
+            else:
+                filter_condition = {"team": selected_option_teams, "MJ": {'$gte': 15}}
 
-    top_tir3_pts_players = collection.find({"MJ": {"$gte": 20}}).sort("tir_3_pts", -1).limit(5)
-    top_tir_3_pts_players_data = [(player["player"], player["tir_3_pts"]) for player in top_tir3_pts_players]
+            if selected_option_stats == '1':
+                top_players = collection.find(filter_condition).sort("MJ", -1).limit(10)
+            if selected_option_stats == '2':
+                top_players = collection.find(filter_condition).sort("minutes", -1).limit(10)
+            if selected_option_stats == '3':
+                top_players = collection.find(filter_condition).sort("tir", -1).limit(10)
+            if selected_option_stats == '4':
+                top_players = collection.find(filter_condition).sort("tir_3_pts", -1).limit(10)
+            if selected_option_stats == '5':
+                top_players = collection.find(filter_condition).sort("lf", -1).limit(10)
+            if selected_option_stats == '6':
+                top_players = collection.find(filter_condition).sort("rb_off", -1).limit(10)
+            if selected_option_stats == '7':
+                top_players = collection.find(filter_condition).sort("rb_df", -1).limit(10)
+            if selected_option_stats == '8':
+                top_players = collection.find(filter_condition).sort("rb", -1).limit(10)
+            if selected_option_stats == '9':
+                top_players = collection.find(filter_condition).sort("pd", -1).limit(10)
+            if selected_option_stats == '10':
+                top_players = collection.find(filter_condition).sort("bp", -1).limit(10)
+            if selected_option_stats == '11':
+                top_players = collection.find(filter_condition).sort("inter", -1).limit(10)
+            if selected_option_stats == '12':
+                top_players = collection.find(filter_condition).sort("ct", -1).limit(10)
+            if selected_option_stats == '13':
+                top_players = collection.find(filter_condition).sort("fte", -1).limit(10)
+            if selected_option_stats == '14':
+                top_players = collection.find(filter_condition).sort("pts", -1).limit(10)
 
-    top_lf_players = collection.find({"MJ": {"$gte": 20}}).sort("lf", -1).limit(5)
-    top_lf_players_data = [(player["player"], player["lf"]) for player in top_lf_players]
+        top_players_data = [(player["player"], player["MJ"], player["minutes"], player["tir"], player["tir_3_pts"], player["lf"], player["rb_off"], player["rb_df"], player["rb"], player["pd"], player["bp"], player["inter"], player["ct"], player["fte"], player["pts"]) for player in top_players]
 
-    top_rb_off_players = collection.find({"MJ": {"$gte": 20}}).sort("rb_off", -1).limit(5)
-    top_rb_off_players_data = [(player["player"], player["rb_off"]) for player in top_rb_off_players]
+        table_head_html = f"<tr><th>Rang</th><th>Joueur</th><th>MJ</th><th>Min</th><th>Tirs</th><th>3pts</th><th>LF</th><th>RebOff</th><th>RebDef</th><th>Reb</th><th>Pd</th><th>Bp</th><th>Int</th><th>Ct</th><th>Fte</th><th>Pts</th></tr>"
+        table_body_html = ""
+        for i, (player, MJ, min, tir, tir3, lf, rboff, rbdef, rb, pd, bp, inter, ct, fte, pts) in enumerate(top_players_data, start=1):
+            table_body_html += "<tr>"
+            for j, value in enumerate([i, player, MJ, min, tir, tir3, lf, rboff, rbdef, rb, pd, bp, inter, ct, fte, pts]):
+                
+                if j == int(selected_option_stats) + 1:
+                    table_body_html += f"<td class='selected'>{value}</td>"
+                else:
+                    table_body_html += f"<td>{value}</td>"
+            table_body_html += "</tr>"
 
-    top_rb_def_players = collection.find({"MJ": {"$gte": 20}}).sort("rb_df", -1).limit(5)
-    top_rb_def_players_data = [(player["player"], player["rb_df"]) for player in top_rb_def_players]
+        return jsonify({'head': table_head_html, 'body': table_body_html})
 
-    top_rb_players = collection.find({"MJ": {"$gte": 20}}).sort("rb", -1).limit(5)
-    top_rb_players_data = [(player["player"], player["rb"]) for player in top_rb_players]
-
-    top_pd_players = collection.find({"MJ": {"$gte": 20}}).sort("pd", -1).limit(5)
-    top_pd_players_data = [(player["player"], player["pd"]) for player in top_pd_players]
-
-    top_bp_players = collection.find({"MJ": {"$gte": 20}}).sort("bp", -1).limit(5)
-    top_bp_players_data = [(player["player"], player["bp"]) for player in top_bp_players]
-
-    top_inter_players = collection.find({"MJ": {"$gte": 20}}).sort("inter", -1).limit(5)
-    top_inter_players_data = [(player["player"], player["inter"]) for player in top_inter_players]
-
-    top_ct_players = collection.find({"MJ": {"$gte": 20}}).sort("ct", -1).limit(5)
-    top_ct_players_data = [(player["player"], player["ct"]) for player in top_ct_players]
-
-    top_fte_players = collection.find({"MJ": {"$gte": 20}}).sort("fte", -1).limit(5)
-    top_fte_players_data = [(player["player"], player["fte"]) for player in top_fte_players]
-
-    top_pts_players = collection.find({"MJ": {"$gte": 20}}).sort("pts", -1).limit(5)
-    top_pts_players_data = [(player["player"], player["pts"]) for player in top_pts_players]
-
-    return render_template("classement.html", top_MJ_players=top_MJ_players_data,
-                           top_min_players=top_min_players_data, top_tir_players=top_tir_players_data,
-                           top_tir_3_pts_players=top_tir_3_pts_players_data, top_lf_players=top_lf_players_data,
-                           top_rb_off_players=top_rb_off_players_data, top_rb_def_players=top_rb_def_players_data,
-                           top_rb_players=top_rb_players_data, top_pd_players=top_pd_players_data,
-                           top_bp_players=top_bp_players_data, top_inter_players=top_inter_players_data,
-                           top_ct_players=top_ct_players_data, top_fte_players=top_fte_players_data,
-                           top_pts_players=top_pts_players_data)
+    return render_template("classement.html", teams_nba=teams_nba)
 
 
 @app.route("/graphs")

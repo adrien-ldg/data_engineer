@@ -41,6 +41,8 @@ Pour mettre en place les containers dockers vous avez juste ouvrir un powershell
 
  -  $ docker compose up --build
 
+Avant d'aller sur l'application flask, il faut attendre que le containeur nba_player_scrap est finit le scrapping des données afin que l'application flask est accès au données de la base Mongo.
+
 ***Scrapping des données:***
 
 Dans un premier temps, nous avons cherché un site où l'on pourrait récupérer nos données. Nous sommes pas tout de suite partie sur la NBA.

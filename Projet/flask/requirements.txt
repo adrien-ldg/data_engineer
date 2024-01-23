@@ -1,4 +1,0 @@
-Flask
-pymongo==4.6.1
-plotly
-plotly.express

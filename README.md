@@ -10,15 +10,15 @@ Notre projet intègrera également la création d'une application web interactiv
 
 ***Comment récuperer notre projet sur Github et le mettre sur Docker:***
 
-Pour récupérer notre projet sur Gitbhub vous devrez dans un powershell au niveau du répertoire où vous voulez retrouvez le projet et lancée une des deux commandes suivantes:
+Pour récupérer notre projet sur Gitbhub vous devrez ouvrir git puis aller au niveau du répertoire où vous voulez retrouvez le projet et enfin lancer une des deux commandes suivantes:
 
- -  avec une clé ssh: $ git@github.com:adrien-ldg/data_engineer.git
+ -  avec une clé ssh: $ git clone git@github.com:adrien-ldg/data_engineer.git
 
  -  avec https: $ git clone https://github.com/adrien-ldg/data_engineer.git 
 
 Ensuite, vous n'avez plus qu'à rentre votre mot de passe et vous retrouvez notre projet sur votre machine local.
 
-Maintenant, il faut mettre notre projet sur docker. Pour cela, on a décidé de créer trois containers différents: un container qui lance le scrapping des données et le met dans une database mongo (nba_player_scrap), un container mongo (mongodb_nba_player) et un dernier qui lance notre application flask (nba_player_flask). Pour cela, nous avons eu besion de créer un fichier yml pour relier nos trois containeurs et deux fichiers Dockerfile, chacun gérant soit le scrapping soit flask.
+Maintenant, il faut mettre notre projet sur docker. Pour cela, on a décidé de créer trois containers différents: un container qui lance le scrapping des données et le met dans une database mongo (nba_player_scrap), un container mongo (mongodb_nba_player) et un dernier container qui lance notre application flask (nba_player_flask). Pour cela, nous avons eu besion de créer un fichier yml pour relier nos trois containeurs et deux fichiers Dockerfile, chacun gérant soit le scrapping soit flask.
 Ainsi, l'arborescence de nos fichiers est:
 
 Projet ---- docker-compose.yml
@@ -37,7 +37,7 @@ nba_player_flask : Ce service utilise une image Docker construite à partir du D
 
 Le fichier docker-compose.yml définit également les dépendances entre ces services. Par exemple, le service "nba_player_scrap" dépend du service "mongodb_nba_player" pour stocker les données scrappées dans la base de données.
 
-Pour mettre en place les containers dockers vous avez juste dans un powershell dans le répertoire Projet lancer la commande:
+Pour mettre en place les containers dockers vous avez juste ouvrir un powershell et au niveau du répertoire Projet lancer la commande:
 
  -  $ docker compose up --build
 

@@ -10,9 +10,9 @@ Notre projet intègrera également la création d'une application web interactiv
 
 ***Comment récuperer notre projet sur Github et le mettre sur Docker:***
 
-Pour récupérer notre projet sur Gitbhub vous devrez ouvrir un powershell au niveau du répertoire où vous voulez retrouvez le projet et lancer une des deux commandes suivantes:
+Pour récupérer notre projet sur Gitbhub vous devrez ouvrir git puis aller au niveau du répertoire où vous voulez retrouvez le projet et enfin lancer une des deux commandes suivantes:
 
- -  avec une clé ssh: $ git@github.com:adrien-ldg/data_engineer.git
+ -  avec une clé ssh: $ git clone git@github.com:adrien-ldg/data_engineer.git
 
  -  avec https: $ git clone https://github.com/adrien-ldg/data_engineer.git 
 

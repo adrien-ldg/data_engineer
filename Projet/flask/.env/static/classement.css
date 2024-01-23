@@ -1,0 +1,119 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: Century;
+}
+
+body {
+    text-align: center;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+.main {
+    max-width: 1200px;
+    margin: auto;
+}
+.nav-list {
+    padding: 1rem 0;
+    list-style-type: none;
+    margin-top: 20px;
+    margin-right: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 17px;
+}
+.nav-item {
+    list-style: none;
+    margin-right: 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.nav-item a {
+    text-decoration: none;
+    color: #000;
+    letter-spacing: 1.2px;
+    padding: 5px 15px;
+    border: 1px solid transparent;
+    transition: 0.5 ease;
+}
+.nav-item a:hover {
+    background-color: #000;
+    color: #fff;
+}
+.nav-item:first-child {
+    margin-right: auto;
+    margin-left: 2rem;
+    pointer-events: none;
+}
+.nav-item.third a {
+    background-color: #000;
+    color: #fff;
+}
+h1 {
+    margin-bottom: 50px; 
+}
+.graph-container {
+    margin-bottom: 70px; 
+}
+.table-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px auto;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 400px;
+    overflow-y: auto;
+}
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+thead tr {
+    background-color: #f79d01;
+    color: #fff;
+}
+th, td {
+    padding: 10px 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+tbody tr, td, th {
+    border: 1px solid #ddd;
+}
+tbody tr:nth-child(even) {
+    background-color: #e9e6e6;
+}
+td.selected {
+    background-color: #c6c6c5;
+    color: #fff;
+    font-weight: bold;
+}
+div.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.dropdown-container {
+    width: 50%;
+}
+div.container select {
+    width: 75%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+div.container select option {
+    background-color: #f8f8f8;
+    padding: 10px;
+}

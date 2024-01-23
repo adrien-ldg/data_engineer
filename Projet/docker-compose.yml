@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  scrapy:
+    build:
+      context: ./scrapy
+    container_name: nba_player_scrap
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb://mongodb_nba_player:27017/"
+
+  flask:
+    build:
+      context: ./flask
+    container_name: nba_player_flask
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb://mongodb_nba_player:27017/"
+      
+  mongo:
+    image: mongo:latest
+    container_name: mongodb_nba_player
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/mongo:/data/db
+    ports:
+        - 27017:27017
